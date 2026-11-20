@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="40dp"
+    android:height="15dp"
+    android:viewportWidth="40"
+    android:viewportHeight="15">
+
+    <!-- Heavy-metal diamond umlaut (tightly cropped for random placement) -->
+    <path
+        android:fillColor="#E0E0E0"
+        android:pathData="M7.5,1 L14,7.5 L7.5,14 L1,7.5 Z" />
+    <path
+        android:fillColor="#E0E0E0"
+        android:pathData="M32.5,1 L39,7.5 L32.5,14 L26,7.5 Z" />
+
+</vector>

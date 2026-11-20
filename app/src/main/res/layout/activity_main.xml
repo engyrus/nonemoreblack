@@ -68,4 +68,15 @@
         android:text="github.com/engyrus"
         android:textColor="#E0E0E0" />
 
+    <ImageView
+        android:id="@+id/wandering_umlauts_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|start"
+        android:alpha="0"
+        android:importantForAccessibility="no"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_nmb_umlauts_tight"
+        android:visibility="invisible" />
+
 </FrameLayout>
