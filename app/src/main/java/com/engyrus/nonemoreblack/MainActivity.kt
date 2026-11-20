@@ -8,8 +8,8 @@ import android.os.Bundle
 import android.util.TypedValue
 import android.view.KeyEvent
 import android.view.View
-import android.view.ViewGroup
 import android.view.WindowManager
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -28,7 +28,10 @@ import kotlin.math.roundToInt
  */
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var logoContainer: LinearLayout
+    private lateinit var logoView: ImageView
+    private lateinit var umlautsView: ImageView
+    private lateinit var logoSubtitle: TextView
+    private lateinit var footerUrl: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         disableTransitionAnimation(isOpen = true)
@@ -45,9 +48,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         hideSystemBars()
 
-        logoContainer = findViewById(R.id.logo_container)
-        val logoView = findViewById<ImageView>(R.id.logo_view)
-        val logoSubtitle = findViewById<TextView>(R.id.logo_subtitle)
+        val logoStack = findViewById<FrameLayout>(R.id.logo_stack)
+        logoView = findViewById(R.id.logo_view)
+        umlautsView = findViewById(R.id.umlauts_view)
+        logoSubtitle = findViewById(R.id.logo_subtitle)
+        footerUrl = findViewById(R.id.footer_url)
 
         val logoHeight = (resources.displayMetrics.heightPixels * 0.10f)
             .roundToInt()
@@ -56,7 +61,7 @@ class MainActivity : AppCompatActivity() {
             .roundToInt()
             .coerceAtLeast(1)
 
-        logoView.layoutParams = logoView.layoutParams.apply {
+        logoStack.layoutParams = logoStack.layoutParams.apply {
             width = logoWidth
             height = logoHeight
         }
@@ -75,13 +80,26 @@ class MainActivity : AppCompatActivity() {
             TypedValue.COMPLEX_UNIT_PX
         )
 
-        // Start at ~33% brightness, hold for 1 second, then fade out over 1 second to leave pure #000000.
-        logoContainer.alpha = 0.33f
-        logoContainer.animate()
+        // Match footer URL font size to the auto-sized "none more black" subtitle after layout.
+        logoSubtitle.post {
+            footerUrl.setTextSize(TypedValue.COMPLEX_UNIT_PX, logoSubtitle.textSize)
+        }
+
+        // Start at ~33% brightness and hold for 1s; nmb + subtitle fade over 1s,
+        // github.com/engyrus fades over 2s, and the umlauts linger in the dark for 4s.
+        fadeOutAfterHold(logoView, durationMs = 1000L)
+        fadeOutAfterHold(logoSubtitle, durationMs = 1000L)
+        fadeOutAfterHold(footerUrl, durationMs = 2000L)
+        fadeOutAfterHold(umlautsView, durationMs = 4000L)
+    }
+
+    private fun fadeOutAfterHold(view: View, durationMs: Long) {
+        view.alpha = 0.33f
+        view.animate()
             .alpha(0f)
             .setStartDelay(1000L)
-            .setDuration(1000L)
-            .withEndAction { logoContainer.visibility = View.GONE }
+            .setDuration(durationMs)
+            .withEndAction { view.visibility = View.INVISIBLE }
             .start()
     }
 
@@ -135,9 +153,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun finishImmediately() {
-        if (::logoContainer.isInitialized) {
-            logoContainer.animate().cancel()
-        }
+        if (::logoView.isInitialized) logoView.animate().cancel()
+        if (::umlautsView.isInitialized) umlautsView.animate().cancel()
+        if (::logoSubtitle.isInitialized) logoSubtitle.animate().cancel()
+        if (::footerUrl.isInitialized) footerUrl.animate().cancel()
         disableTransitionAnimation(isOpen = false)
         finishAndRemoveTask()
     }
