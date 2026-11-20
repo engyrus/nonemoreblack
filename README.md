@@ -80,4 +80,4 @@ adb connect <DEVICE_IP>:5555
 adb install -r app\build\outputs\apk\debug\app-debug.apk
 ```
 
-3. Optionally, map a remote button in **tvQuickActions** (or a similar app) to launch **None More Black** (`com.engyrus.nonemoreblack`). Press that button once to black out the screen; press again (or, really, almost any other key) to reveal the app behind the blackout curtain. You can also simply launch NMB from your launcher when you need to blank the screen.
+3. Optionally, map a remote button in **tvQuickActions** (or a similar app) to launch **None More Black** (`com.engyrus.nonemoreblack`). Press that button once to black out the screen; press again (or, really, almost any other key) to reveal the app behind the blackout curtain. You can also simply launch **n̈mb** from your launcher whenever you need to blank the screen.
